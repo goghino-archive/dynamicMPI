@@ -24,10 +24,9 @@ int main(int argc, char *argv[])
       exit(1);
     } 
  
-   /* 
-    * Parallel code here.  
+   /*   
     * The manager is represented as the process with rank 0 in (the remote 
-    * group of) MPI_COMM_PARENT.  If the workers need to communicate among 
+    * group of) parent_comm.  If the workers need to communicate among 
     * themselves, they can use MPI_COMM_WORLD. 
     */ 
    int rank, mpi_size;  
@@ -35,10 +34,16 @@ int main(int argc, char *argv[])
    MPI_Comm_size(MPI_COMM_WORLD,&mpi_size);
    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-   cout << "[MPI_COMM_WORLD]Hello from process " << rank << " from total of " << mpi_size << endl;
+   cout << "[worker]Hello from process " << rank << " from total of " << mpi_size << endl;
 
+   //send something to manager using intercomm
    int info = rank*100;
    MPI_Send(&info, 1, MPI_INT, 0, 0, parent_comm);
+
+   //get something from manager
+   MPI_Recv(&info, 1, MPI_INT, 0, 0, parent_comm, MPI_STATUS_IGNORE);
+   cout << "[worker]Recieved info: " << info << endl; 
+
  
    MPI_Comm_disconnect(&parent_comm);
    MPI_Finalize(); 

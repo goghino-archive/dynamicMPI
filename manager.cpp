@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 { 
    int world_size, worker_size, *worker_sizep, flag; 
    MPI_Comm everyone_comm;  //intercommunicator to workers
-   const char* worker_program = "worker";
+   const char* worker_program = "worker"; //name of worker binary
    //const char* worker_program = argv[0];
    //char worker_args[] = ["100", "10"];
  
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
     int version, subversion;
     MPI_Get_version(&version,&subversion);
-    cout << "I’m running MPI " << version << "." << subversion << endl;
+    cout << "[manager]I’m running MPI " << version << "." << subversion << endl;
  
    /*  
     * Now spawn the workers. Note that there is a run-time determination 
@@ -55,17 +55,17 @@ int main(int argc, char *argv[])
              MPI_INFO_NULL, 0, MPI_COMM_SELF, &everyone_comm,  
              MPI_ERRCODES_IGNORE); 
    /* 
-    * Parallel code here. The communicator "everyone" can be used 
+    * Parallel code here. The communicator "everyone_comm" can be used 
     * to communicate with the spawned processes, which have ranks 0,.. 
     * MPI_worker_size-1 in the remote group of the intercommunicator 
-    * "everyone". 
+    * "everyone_comm". 
     */ 
    int rank, size, size_all;
    MPI_Comm_size(MPI_COMM_WORLD,&size);
    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
    MPI_Comm_remote_size(everyone_comm,&size_all);
-   cout << "[MPI_COMM_WORLD]Hello from manager. I am rank " << rank << " from total of " << size << endl;
-   cout << "Successfully spawned " << size_all << " processes" << endl;
+   cout << "[manager]Hello from manager. I am rank " << rank << " from total of " << size << endl;
+   cout << "[manager]Successfully spawned " << size_all << " processes" << endl;
 
    /*
     * Get some information from newly spawned processes in inter-communicator everyone
@@ -76,7 +76,13 @@ int main(int argc, char *argv[])
    for (int i=0; i<size_all; i++)
    {
       MPI_Recv(&info, 1, MPI_INT, i, 0, everyone_comm, MPI_STATUS_IGNORE);
-      cout << "Recieved info: " << info << endl; 
+      cout << "[manager]Recieved info: " << info << endl; 
+   }
+
+   info = size_all*1000;
+   for (int i=0; i<size_all; i++)
+   {
+      MPI_Send(&info, 1, MPI_INT, i, 0, everyone_comm);
    }
 
    MPI_Finalize(); 
