@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 { 
    int world_size, worker_size, *worker_sizep, flag; 
    MPI_Comm everyone_comm;  //intercommunicator to workers
-   const char* worker_program = "worker"; //name of worker binary
+   const char* worker_program = "./worker"; //name of worker binary
    //const char* worker_program = argv[0];
    //char worker_args[] = ["100", "10"];
  
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
    MPI_Comm_get_attr(MPI_COMM_WORLD, worker_size,  
                 &worker_sizep, &flag);  
    
-   if (worker_size == 1)
+   if (worker_size < 1)
     {
       cerr << "No room to start workers" << endl; 
     }
