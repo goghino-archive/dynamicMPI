@@ -4,6 +4,8 @@
   MPI program (manager) creates new MPI processes by launching a binary and communicates with them.
 */ 
 #include <mpi.h> 
+#include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
