@@ -12,7 +12,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) 
 { 
-    int world_size, worker_size, *worker_sizep, flag; 
+    int world_size, worker_size; 
     MPI_Comm everyone_comm;  //intercommunicator to workers
     const char* worker_program = "./worker"; //name of worker binary
     //const char* worker_program = argv[0];
@@ -32,10 +32,8 @@ int main(int argc, char *argv[])
         cerr << "Usage: $./manager NPROC" << endl; 
         exit(1);
     }
-    worker_size = atoi(argv[1]);
-    MPI_Comm_get_attr(MPI_COMM_WORLD, worker_size,  
-            &worker_sizep, &flag);  
 
+    worker_size = atoi(argv[1]);
     if (worker_size < 1)
     {
         cerr << "No room to start workers" << endl; 
