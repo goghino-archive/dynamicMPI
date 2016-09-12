@@ -9,9 +9,10 @@ using namespace std;
 
 int main(int argc, char *argv[]) 
 { 
+    MPI_Init(&argc, &argv); 
+    
     int size; 
     MPI_Comm parent_comm; 
-    MPI_Init(&argc, &argv); 
 
     //Get inter-communicator to parent process
     MPI_Comm_get_parent(&parent_comm); 

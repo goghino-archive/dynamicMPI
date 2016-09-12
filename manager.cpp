@@ -12,13 +12,14 @@ using namespace std;
 
 int main(int argc, char *argv[]) 
 { 
+    MPI_Init(&argc, &argv); 
+
     int world_size, worker_size; 
     MPI_Comm everyone_comm;  //intercommunicator to workers
     const char* worker_program = "./worker"; //name of worker binary
     //const char* worker_program = argv[0];
     //char worker_args[] = ["100", "10"];
 
-    MPI_Init(&argc, &argv); 
     MPI_Comm_size(MPI_COMM_WORLD, &world_size); 
 
     if (world_size != 1)
