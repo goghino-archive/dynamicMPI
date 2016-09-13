@@ -56,10 +56,12 @@ int main(int argc, char *argv[])
      * first started, it is generally better to start them all at once 
      * in a single MPI_COMM_WORLD.  
      */ 
-
-    MPI_Comm_spawn(worker_program, MPI_ARGV_NULL, worker_size,  
-            MPI_INFO_NULL, 0, MPI_COMM_SELF, &everyone_comm,  
-            MPI_ERRCODES_IGNORE); 
+     MPI_Info host_info = MPI_INFO_NULL;
+     //MPI_Info_create(&host_info); 
+     //MPI_Info_set(host_info, "host", "icsnode39"); 
+     
+     MPI_Comm_spawn(worker_program, MPI_ARGV_NULL, worker_size,  
+        host_info, 0, MPI_COMM_SELF, &everyone_comm, MPI_ERRCODES_IGNORE); 
     /* 
      * Parallel code here. The communicator "everyone_comm" can be used 
      * to communicate with the spawned processes, which have ranks 0,.. 
