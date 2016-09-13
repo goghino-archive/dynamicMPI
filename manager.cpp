@@ -90,7 +90,10 @@ int main(int argc, char *argv[])
     {
         MPI_Send(&info, 1, MPI_INT, i, 0, everyone_comm);
     }
-
+    
+    //wait for the comm to finish and free the communicator
+    MPI_Comm_disconnect(&everyone_comm);
+    cout << "[manager]Disconnected" << endl;
     MPI_Finalize(); 
     return 0; 
 }

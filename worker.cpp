@@ -52,8 +52,9 @@ int main(int argc, char *argv[])
     MPI_Recv(&info, 1, MPI_INT, 0, 0, parent_comm, MPI_STATUS_IGNORE);
     cout << "[worker]Recieved info: " << info << endl; 
 
-
+    //wait for the comm to finish and free the communicator
     MPI_Comm_disconnect(&parent_comm);
+    cout << "[worker]Disconnected" << endl;
     MPI_Finalize(); 
     return 0; 
 } 
