@@ -11,6 +11,8 @@ sbatch <<-_EOF
 #SBATCH --time=00:02:00
 #SBATCH --output=out.o
 
+module load openmpi/2.0.1
+
 #working only with openmpi build with PMI support
 srun -n 1 ./manager ${nworkers}
 
