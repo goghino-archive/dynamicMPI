@@ -81,6 +81,7 @@ int main(int argc, char *argv[])
      * http://ppomorsk.sharcnet.ca/Lecture_6_a_process_creation.pdf
      */
     int info = 0;
+    cout << "[manager]waiting for data from " << size_all << " workers" << endl;
     for (int i=0; i<size_all; i++)
     {
         MPI_Recv(&info, 1, MPI_INT, i, 0, everyone_comm, MPI_STATUS_IGNORE);
@@ -88,6 +89,7 @@ int main(int argc, char *argv[])
     }
 
     info = size_all*1000;
+    cout << "[manager]sending data" << endl;
     for (int i=0; i<size_all; i++)
     {
         MPI_Send(&info, 1, MPI_INT, i, 0, everyone_comm);

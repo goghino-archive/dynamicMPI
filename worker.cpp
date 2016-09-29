@@ -46,9 +46,11 @@ int main(int argc, char *argv[])
 
     //send something to manager using intercomm
     int info = rank*100;
+    cout << "[worker]sending data..." << endl;
     MPI_Send(&info, 1, MPI_INT, 0, 0, parent_comm);
 
     //get something from manager
+    cout << "[worker]waiting for data ..." << endl;
     MPI_Recv(&info, 1, MPI_INT, 0, 0, parent_comm, MPI_STATUS_IGNORE);
     cout << "[worker]Recieved info: " << info << endl; 
 
