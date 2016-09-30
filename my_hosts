@@ -1,6 +1,7 @@
 #this file lists hosts on which to launch MPI processes
 icsnode05
 icsnode06
+icsnode07
 #icsnode37
 #icsnode38
 #icsnode39
