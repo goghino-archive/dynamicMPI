@@ -1,5 +1,5 @@
 #CC=mpic++
-CC=~/privateapps/openmpi/2.0.1/bin/mpic++
+CC=$(OPENMPI_DIR)/bin/mpic++
 
 all: programs
 
